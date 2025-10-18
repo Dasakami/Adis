@@ -131,15 +131,13 @@ class ReviewViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     pagination_class = StandardResultsSetPagination
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['service']  # ← тут поле для фильтрации по service
+    filterset_fields = ['service']  # фильтрация по service ID
 
     def get_serializer_class(self):
         if self.action == 'create':
             return ReviewCreateSerializer
         return ReviewSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+    
 
 
 

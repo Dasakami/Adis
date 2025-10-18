@@ -4,6 +4,7 @@ from .models import (
     Category, Favorite, SubCategory, Service, ServicePhoto,
     SearchHistory, Review, ReviewPhoto, Chat, Message, UserSettings
 )
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -188,13 +189,15 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     
 class ReviewCreateSerializer(serializers.ModelSerializer):
-    photos = serializers.ListField(child=serializers.ImageField(), required=False)
+    photos = serializers.ListField(
+        child=serializers.ImageField(), 
+        required=False,
+        write_only=True
+    )
 
     class Meta:
         model = Review
-        fields = ['id', 'service', 'rating', 'text', 'photos']  # ← rating добавлен
-        read_only_fields = ['id']
-        ref_name = 'ReviewCreateSerializer'
+        fields = ['service', 'rating', 'text', 'photos']
 
     def validate_photos(self, value):
         if len(value) > 6:
@@ -207,7 +210,12 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         author = self.context['request'].user
         review = Review.objects.create(author=author, **validated_data)
         for p in photos:
-            ReviewPhoto.objects.create(review=review, photo=p)
+            # если кто-то случайно прислал один файл
+            if isinstance(p, InMemoryUploadedFile):
+                ReviewPhoto.objects.create(review=review, photo=p)
+            else:
+                for f in p:
+                    ReviewPhoto.objects.create(review=review, photo=f)
         return review
 
 
