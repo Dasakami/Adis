@@ -123,18 +123,24 @@ class ServiceViewSet(viewsets.ModelViewSet):
 
 
 
+# views.py
+from django_filters.rest_framework import DjangoFilterBackend
+
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.select_related('author', 'service').prefetch_related('photos')
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     pagination_class = StandardResultsSetPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['service']  # ← тут поле для фильтрации по service
 
     def get_serializer_class(self):
-        if self.action in ['create']:
+        if self.action == 'create':
             return ReviewCreateSerializer
         return ReviewSerializer
 
     def perform_create(self, serializer):
-        serializer.save()
+        serializer.save(author=self.request.user)
+
 
 
 class ChatViewSet(viewsets.ModelViewSet):

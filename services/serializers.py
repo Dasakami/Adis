@@ -180,6 +180,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     def get_author(self, obj):
         a = obj.author
         return {'id': a.id, 'username': a.username}
+    
 class ReviewCreateSerializer(serializers.ModelSerializer):
     photos = serializers.ListField(child=serializers.ImageField(), required=False)
 
