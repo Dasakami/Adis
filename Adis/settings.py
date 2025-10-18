@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'main',
     'users',
     'services',
+    'drf_spectacular',
 ]
 
 
@@ -166,6 +167,9 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'REST_FRAMEWORK' : {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 }
 
 
