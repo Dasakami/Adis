@@ -29,3 +29,6 @@ django-cloudinary-storage==0.3.0
 twilio==8.13.0
 django-filter==22.1
 coreapi>=2.3.3
+google-auth==2.35.0
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.147.0
