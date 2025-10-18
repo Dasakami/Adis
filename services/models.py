@@ -53,6 +53,8 @@ class Service(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     popularity = models.IntegerField(default=0)
     currency = models.CharField(max_length=155, choices=CURRENCY_CHOICES, default='SOM')
+    average_rating = models.FloatField(default=0)
+    review_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = 'Услуга'
@@ -87,17 +89,28 @@ class SearchHistory(models.Model):
         verbose_name_plural = 'Истории поисковой системы'
 
 class Review(models.Model):
+    RATING_CHOICES = [
+        (1, '★☆☆☆☆'),
+        (2, '★★☆☆☆'),
+        (3, '★★★☆☆'),
+        (4, '★★★★☆'),
+        (5, '★★★★★'),
+    ]
+
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='reviews')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = models.TextField(blank=True)
+    rating = models.PositiveSmallIntegerField(choices=RATING_CHOICES, default=5)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Отзыв'
         verbose_name_plural = 'Отзывы'
+        ordering = ['-created_at']
 
     def __str__(self):
-        return f'От {self.author.username} к {self.service.title}'
+        return f'От {self.author.username} ({self.rating}★) к {self.service.title}'
+
 
 class ReviewPhoto(models.Model):
     review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='photos')

@@ -31,6 +31,13 @@ CORS_ALLOWED_ORIGINS = [
 
 
 INSTALLED_APPS = [
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,6 +59,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
 ]
 
+SITE_ID = 1
 
 
 MIDDLEWARE = [
@@ -63,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'Adis.urls'
@@ -218,3 +227,13 @@ TWILIO_ACCOUNT_SID = os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = os.getenv("TWILIO_AUTH_TOKEN")
 
 TWILIO_PHONE_NUMBER = "+12294713777"  
+# Если используешь django-allauth или socialaccount
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '339282383851-r5a3uhs4rsfudl28s49uvkhh15v1ot6a.apps.googleusercontent.com',
+            'secret': '',  # пустой, для мобильных secret не нужен
+            'key': ''
+        }
+    }
+}

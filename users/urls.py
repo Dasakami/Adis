@@ -1,4 +1,6 @@
 from django.urls import path
+
+from main.google_views import google_login
 from .views import (
     RegisterEmailView, SendPhoneCodeView, VerifyPhoneCodeView,
     LoginEmailView, SetRoleView, MeView, UserDetailView
@@ -14,4 +16,5 @@ urlpatterns = [
     path('set-role/', SetRoleView.as_view(), name='set-role'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('<int:pk>/', UserDetailView.as_view(), name='user-detail'),
+        path('login/google/', google_login, name='login-google'),
 ]

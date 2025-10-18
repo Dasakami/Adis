@@ -39,7 +39,7 @@ class ServiceListSerializer(serializers.ModelSerializer):
         model = Service
         fields = [
             'id', 'executor', 'title', 'category', 'subcategories',
-            'price', 'experience', 'phone_number', 'popularity', 'created_at', 'photos', 'currency',
+            'price', 'experience', 'phone_number', 'popularity', 'created_at', 'photos', 'currency', 'average_rating', 'review_count',
         ]
         ref_name = 'ServiceListSerializer'
 
@@ -173,20 +173,19 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ['id', 'service', 'author', 'text', 'created_at', 'photos']
+        fields = ['id', 'service', 'author', 'rating', 'text', 'created_at', 'photos']  # ← rating добавлен
         read_only_fields = ['author', 'created_at']
         ref_name = 'ReviewSerializerCustom'
 
     def get_author(self, obj):
         a = obj.author
         return {'id': a.id, 'username': a.username}
-
 class ReviewCreateSerializer(serializers.ModelSerializer):
     photos = serializers.ListField(child=serializers.ImageField(), required=False)
 
     class Meta:
         model = Review
-        fields = ['id', 'service', 'text', 'photos']
+        fields = ['id', 'service', 'rating', 'text', 'photos']  # ← rating добавлен
         read_only_fields = ['id']
         ref_name = 'ReviewCreateSerializer'
 
@@ -203,7 +202,6 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         for p in photos:
             ReviewPhoto.objects.create(review=review, photo=p)
         return review
-
 
 
 class MessageSerializer(serializers.ModelSerializer):
