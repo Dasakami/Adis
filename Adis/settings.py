@@ -9,12 +9,13 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ['*', 'http://192.168.1.3:8000']
+ALLOWED_HOSTS = ['*', 'http://192.168.1.3:8000', 'https://adis-w63k.onrender.com']
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",       
     "http://localhost:8000",       
     "http://192.168.1.3:8000",
-    'http://192.168.43.53:8000'
+    'http://192.168.43.53:8000',
+    'https://adis-w63k.onrender.com',
 ]
 
 
@@ -23,7 +24,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
     "http://192.168.1.3:8000",
-    'http://192.168.43.53:8000'
+    'http://192.168.43.53:8000',
+    'https://adis-w63k.onrender.com',
 ]
 
 
