@@ -82,23 +82,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Adis.wsgi.application'
 AUTH_USER_MODEL = 'users.User'
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         "NAME": os.getenv("POSTGRES_DB"),
+#         "USER": os.getenv("POSTGRES_USER"),
+#         "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+#         "HOST": os.getenv("POSTGRES_HOST"),
+#         "PORT": os.getenv("POSTGRES_PORT"),
+#     }
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -124,8 +124,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CLOUDINARY_STORAGE = {
@@ -134,6 +135,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'),
 }
 
+PORT = 10000
 
 
 MEDIA_URL = '/media/'
